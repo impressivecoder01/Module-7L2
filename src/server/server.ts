@@ -41,7 +41,7 @@ app.get('/', (req : Request, res: Response) => {
     "author": "Nest Level"
   })
 })
-app.post('/', async(req : Request, res: Response)=>{
+app.post('/api/users', async(req : Request, res: Response)=>{
   // console.log(req.body);
   const {name, email, password, age} = req.body;
   
@@ -54,6 +54,7 @@ app.post('/', async(req : Request, res: Response)=>{
   )
   console.log(result);
    res.status(201).json({
+    success: true,
     message : "created USER SUCCESSFULLY",
     data: result.rows[0]
   });
@@ -61,9 +62,29 @@ app.post('/', async(req : Request, res: Response)=>{
   }
   catch(error : any){
      res.status(500).json({
+      success: false,
     message : error.message,
     error: error
   });
+  }
+})
+
+app.get('/api/users', async(req: Request, res: Response)=> {
+  try {
+    const result = await pool.query(`
+      SELECT * FROM users
+      `)
+      res.status(200).json({
+        success: true,
+        message: "users retrieved successfully",
+        data: result.rows
+      })
+  } catch (error: any) {
+    res.status(500).json({
+        success: false,
+        message: error.message,
+        data: error
+      })
   }
 })
 
