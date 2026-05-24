@@ -23,55 +23,10 @@ app.get('/', (req : Request, res: Response) => {
 })
 
 
-app.get('/api/users', async(req: Request, res: Response)=> {
-  try {
-    const result = await pool.query(`
-      SELECT * FROM users
-      `)
-      res.status(200).json({
-        success: true,
-        message: "users retrieved successfully",
-        data: result.rows
-      })
-  } catch (error: any) {
-    res.status(500).json({
-        success: false,
-        message: error.message,
-        data: error
-      })
-  }
-})
 
-app.get(`/api/users/:id`,async(req: Request, res: Response)=> {
-  const {id} = req.params
-  // console.log(id)
-  try {
-    const result = await pool.query(`
-      SELECT * FROM users WHERE id=$1
 
-      `, [id])
-      if(result.rows.length===0){
-         res.status(404).json({
-        success: false,
-        message: 'user not found',
-        data: {}
-      })
-      }
-      res.status(200).json({
-        success: true,
-        message: "User retrieved successfully",
-        data: result.rows[0]
-      })
-      // console.log(result);
-  } catch (error: any) {
-    res.status(500).json({
-        success: false,
-        message: error.message,
-        data: error
-      })
-  }
-}
-)
+
+
 app.put('/api/users/:id', async(req: Request, res: Response)=> {
   const {id} = req.params
   const {name, password, age, is_active} = req.body
