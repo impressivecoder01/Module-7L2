@@ -7,6 +7,8 @@ const router = Router()
 
 router.post('/', userController.createUser)
 router.get('/', userController.getAllUsers)
-router.get(`/api/users/:id`,)
+router.get(`/:id`,userController.getSingleUser)
+router.put('/:id', userController.updateUser)
+router.delete('/api/users/:id', )
 
 export const userRoute = router

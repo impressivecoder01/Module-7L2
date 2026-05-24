@@ -27,6 +27,20 @@ const getSingleUserFromDB = async(id: string )=> {
       return result
 }
 
+const updatedUserFromDB = async(payLoad: IUser, id: string) => {
+    const {name, password, age, is_active} = payLoad
+    const result = await pool.query(`
+    UPDATE users 
+    SET 
+    name = COALESCE($1,name), 
+    password = COALESCE($2,password), 
+    age = COALESCE($3,age), 
+    is_active = COALESCE($4,is_active)
+    WHERE id=$5 RETURNING *
+    `, [name, password, age, is_active, id])
+    return result
+}
+
 export const userService = {
-    createUserIntoDB, getAllUsersFromDB, getSingleUserFromDB
+    createUserIntoDB, getAllUsersFromDB, getSingleUserFromDB, updatedUserFromDB
 }
