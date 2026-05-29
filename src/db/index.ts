@@ -30,7 +30,7 @@ export const initDB = async() =>{
         created_at TIMESTAMP DEFAULT NOW(),
         updated_at TIMESTAMP DEFAULT NOW()
         )
-        `)
+        `);
       console.log('DATABASE CONNECT successfully ');
   }
   catch(error){
