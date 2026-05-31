@@ -2,3 +2,9 @@ Method -> GET Time ->1780173275448 URL -> /Method -> GET Time ->1780173310849 UR
 Method -> GET Time ->1780173344724 URL -> /
 
 Method -> GET - Time ->1780173364087 - URL -> /
+
+Method -> GET - Time ->1780249504403 - URL -> /
+
+Method -> GET - Time ->1780249505750 - URL -> /favicon.ico
+
+Method -> GET - Time ->1780249830101 - URL -> /
