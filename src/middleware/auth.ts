@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken"
+import jwt, { type JwtPayload } from "jsonwebtoken"
 import config from "../config";
+import { pool } from "../db";
 
 const auth = ()=>{
     return async (req:Request, res:Response, next: NextFunction) => {
@@ -14,8 +15,26 @@ const auth = ()=>{
             message: "Unauthorized access",
         })
     }
-    const decode = jwt.verify(token as string,config.secret as string)
-    console.log(decode);
+    const decode = jwt.verify(token as string,config.secret as string) as JwtPayload
+    // console.log(decode);
+    const userData = await pool.query(`
+        SELECT * FROM users WHERE email = $1
+        `, [decode.email])
+        const user = userData.rows[0]
+        // console.log(user);
+        if(userData.rows.length === 0){
+            res.status(404).json({
+                success: false,
+                message: "User not found!!"
+            })
+        }
+
+        if(!user.is_active){
+            res.status(403).json({
+                success: false,
+                message: "Forbidden!!"
+            })
+        }
 
     next()
 }
